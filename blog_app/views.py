@@ -65,7 +65,7 @@ def product(request):
 
     t = loader.get_template("product.html")
     d = MY_RESUME.copy()
-    d["title"] = "项目合作"
+    d["title"] = "产品展示"
     d["text1"] = "谢谢关注"
     d["text2"] = "thanks for you attation"
     return HttpResponse(t.render(d))
@@ -96,7 +96,7 @@ def blog_detail(request, blog_index):
 
     t = loader.get_template("blog_detail.html")
     d = MY_RESUME.copy()
-    d["title"] = "项目合作"
+    d["title"] = blog.title
     d["text1"] = "谢谢关注"
     d["text2"] = "thanks for you attation"
     d["blog"] = blog
@@ -110,7 +110,7 @@ def about_us(request):
     t = loader.get_template("about_us.html")
     d = MY_RESUME.copy()
     d["user_img"] = "images/user.jpg"
-    d["title"] = "博客园地"
+    d["title"] = "关于站长"
     d["text1"] = "谢谢关注"
     d["text2"] = "thanks for you attation"
     d["blog_list"] = Blog.objects.all().order_by("date")
