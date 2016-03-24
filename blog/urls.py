@@ -20,6 +20,7 @@ from blog_app.views import *
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^$', index),
     url(r'^index/$', index),
     url(r'^product/$', product),
     url(r'^product_detail/(\d*)$', product_detail),
