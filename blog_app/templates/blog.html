@@ -9,28 +9,28 @@
         <div class="main row">
             <div class="col-md-8 blog_left">
                 <h2 class="style">最新博文</h2>
+                <div class="blog_main">
                 {% for blog in blog_list %}
-                    <div class="blog_main">
-                        <a href="/blog_detail/{{ blog.index }}"><img src="{% static "images/blog_pic1.jpg" %}" alt="" class="blog_img img-responsive"/></a>
-                        <h4><a href="/blog_detail/{{ blog.index }}">{{ blog.title }}</a></h4>
-                        <div class="blog_list pull-left">
-                            <ul class="list-unstyled">
-                                <li><i class="fa fa-calendar-o"></i><span>{{ blog.date }}</span></li>
-                                <li><a href="#"><i class="fa fa-eye"></i><span>{{ blog.views }}</span></a></li>
-                            </ul>
-                        </div>
-                        <div class="b_left pull-right">
-                            <a href=""><i class="fa fa-heart"></i><span>{{ blog.hearts }}</span></a>
-                        </div>
-                        <div class="clearfix"></div>
-                        <p class="para">{{ blog.summary }}</p>
-                        <div class="read_more btm">
-                            <a href="/blog_detail/{{ blog.index }}">view more</a>
-                        </div>
+                    <h4><a href="/blog_detail/{{ blog.index }}">{{ blog.title }}</a></h4>
+                    <div class="blog_list pull-left">
+                        <ul class="list-unstyled">
+                            <li><i class="fa fa-calendar-o"></i><span>{{ blog.date }}</span></li>
+                            <li><i class="fa fa-eye"></i><span>{{ blog.views }}</span></a></li>
+                        </ul>
                     </div>
+                    <div class="b_left pull-right">
+                        <a href="/blog/?index={{ blog.index }}"><i class="fa fa-heart"></i><span>{{ blog.hearts }}</span></a>
+                    </div>
+                    <div class="clearfix"></div>
+                    <p class="para">{{ blog.summary }}</p>
                 {% empty %}
                     <div>这家伙太懒了，没有任何博文发表</div>
                 {% endfor %}
+                <a href="/blog/?page=dec"><font size="3">上一页</font></a>
+                    &nbsp;
+                    &nbsp;
+                    <a href="/blog/?page=inc"><font size="3">下一页</font></a>
+                </div>
             </div>
 
             <div class="col-md-4 blog_right">

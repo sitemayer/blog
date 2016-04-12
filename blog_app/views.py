@@ -12,7 +12,7 @@ MY_RESUME = {
     "my_resume":"屌丝程序员，努力奋斗中",
     "address":"北京市昌平区沙河镇",
     "phone_number":"13671276405",
-    "email":"sitemayerlee@163.com",
+    "email":"sitemayer@163.com",
     "year": 2016,
     "company": "GkTek"
 }
@@ -73,17 +73,37 @@ def product(request):
 def product_detail(request):
     pass
 
+current_page = 0
 def blog(request):
     if request.POST:
         getcontactinfo(request)
         sendemail()
+
+    blog_index = request.GET.get("index")
+    if blog_index:
+        blog = Blog.objects.get(index = blog_index)
+        if blog:
+            blog.hearts += 1
+            blog.save()
+
+    global current_page
+    page = request.GET.get("page")
+    if page == "inc":
+        current_page += 1
+    elif page == "dec" and current_page > 0:
+        current_page -= 1
 
     t = loader.get_template("blog.html")
     d = MY_RESUME.copy()
     d["title"] = "博客园地"
     d["text1"] = "谢谢关注"
     d["text2"] = "thanks for you attation"
-    d["blog_list"] = Blog.objects.all().order_by("date")
+    # d["blog_list"] = Blog.objects.all().order_by("date")
+    d["blog_list"] = []
+    blog_list = Blog.objects.all()
+    for blg in blog_list:
+        if blg.page() == current_page:
+            d["blog_list"].append(blg)
 
     return HttpResponse(t.render(d))
 
@@ -91,15 +111,18 @@ def blog_detail(request, blog_index):
     if request.POST:
         getcontactinfo(request)
         sendemail()
-    else:
-        blog = Blog.objects.get(index = blog_index)
 
-    t = loader.get_template("blog_detail.html")
-    d = MY_RESUME.copy()
-    d["title"] = blog.title
-    d["text1"] = "谢谢关注"
-    d["text2"] = "thanks for you attation"
-    d["blog"] = blog
+    blog = Blog.objects.get(index = blog_index)
+    if blog:
+        blog.views += 1
+        blog.save()
+        t = loader.get_template("blog_detail.html")
+        d = MY_RESUME.copy()
+        d["title"] = blog.title
+        d["text1"] = "谢谢关注"
+        d["text2"] = "thanks for you attation"
+        d["blog"] = blog
+
     return HttpResponse(t.render(d))
 
 def about_us(request):
@@ -113,6 +136,5 @@ def about_us(request):
     d["title"] = "关于站长"
     d["text1"] = "谢谢关注"
     d["text2"] = "thanks for you attation"
-    d["blog_list"] = Blog.objects.all().order_by("date")
 
     return HttpResponse(t.render(d))

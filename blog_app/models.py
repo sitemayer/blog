@@ -12,5 +12,8 @@ class Blog(models.Model):
     hearts = models.IntegerField()
     index = models.IntegerField(default = 0, primary_key=True)
 
+    def page(self):
+        return self.index / 2
+
     def __unicode__(self):
         return self.title
